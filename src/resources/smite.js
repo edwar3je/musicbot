@@ -130,4 +130,4 @@ const characters = [
     "Zhong Kui"
 ]
 
-module.exports = characters;
+module.exports = characters

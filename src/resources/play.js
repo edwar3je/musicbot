@@ -4,6 +4,7 @@ const play = {
     name: "play",
     description: "Adds a song (via YouTube video url) and plays in voice chat (only if you are in voice chat).",
     execute: (message, url) => {
+        if (!message.member.voice.channel) return message.channel.send("You must be in a voice channel to play music");
         if (!url) return message.channel.send("Error: Please provide a YouTube video url");
         client.DisTube.play(message.member.voice.channel, url, {
             member: message.member,

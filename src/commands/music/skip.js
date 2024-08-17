@@ -1,9 +1,7 @@
-const client = require('../index.js');
-
 const skip = {
     name: "skip",
     description: "Skips the current song in queue.",
-    execute: (message) => {
+    execute: async (message, client) => {
         const queue = client.DisTube.getQueue(message);
         if (!queue) return message.channel.send("There is nothing in the queue right now.");
         try {

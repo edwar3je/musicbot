@@ -1,12 +1,13 @@
 const path = require('path');
 const fs = require('fs');
 
-const help = {
-    name: "help",
-    description: "Provides a description of a given function (requires a valid command).",
-    execute: async (message, command) => {
-        if (!command) return message.channel.send("Error: Please provide a command to get further information.");
+const commands = {
+    name: "listcommands",
+    description: "Provides a list of commands.",
+    execute: async (message) => {
 
+        let commandStrings = [];
+        
         commandDirArr = await new Promise((resolve, reject) => {
 
             const commandDirectory = path.join(__dirname, '/../../commands');
@@ -37,27 +38,16 @@ const help = {
             });
         });
 
-        let found = false;
-        let dirName = null;
-
         for(let directory of commandDirArr){
             for(let file of directory['files']){
-                if (file == `${command}.js`){
-                    found = true;
-                    dirName = directory['directory'];
-                    break;
-                }
+                let fileObject = directory['directory'] == "utility" ? require(`./${file}`) : require(`../${directory['directory']}/${file}`);
+                commandStrings.push(`                  ${fileObject.name}: ${fileObject.description}`);
             }
-            if(found) break;
         }
-
-        if(!found){
-            return message.channel.send(`Command ${command} is not a valid command. Please provide a valid command or use '!commands' to obtain a list of available commands.`);
-        } else {
-            let commandFile = dirName == "utility" ? require(`./${command}.js`) : require(`../${dirName}/${command}.js`);
-            return message.channel.send(`${commandFile.name}: ${commandFile.description}`);
-        }
+        commandStrings.unshift('Here are the following commands:');
+        const finalString = commandStrings.join("\n\n");
+        return message.channel.send(finalString);
     }
 }
 
-module.exports =  help;
+module.exports = commands;

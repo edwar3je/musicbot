@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const getFiles = require('../../getFiles.js');
 
 const commands = {
     name: "listcommands",
@@ -7,41 +8,17 @@ const commands = {
     execute: async (message) => {
 
         let commandStrings = [];
-        
-        commandDirArr = await new Promise((resolve, reject) => {
 
-            const commandDirectory = path.join(__dirname, '/../../commands');
+        const commandDirectory = path.join(__dirname, '/../../commands');
 
-            fs.readdir(commandDirectory, async (err, directories) => {
-                if (err) {
-                    reject (new Error("Unable to access commands folder."));
-                }
-                const promiseArray = [];
-                directories.forEach(directory => {
-                    promiseArray.push(
-                        new Promise((resolve, reject) => {
-                            let subDirectoryPath = path.join(commandDirectory, directory);
-                            fs.readdir(subDirectoryPath, (err, files) => {
-                                if(err){
-                                    reject(err)
-                                }
-                                resolve({
-                                    directory: directory,
-                                    files: files
-                                });
-                            })
-                        })
-                    );
-                });
-                let results = await Promise.all(promiseArray);
-                resolve(results);
-            });
-        });
+        const commandDirArr = await getFiles(commandDirectory);
 
         for(let directory of commandDirArr){
-            for(let file of directory['files']){
-                let fileObject = directory['directory'] == "utility" ? require(`./${file}`) : require(`../${directory['directory']}/${file}`);
-                commandStrings.push(`                  ${fileObject.name}: ${fileObject.description}`);
+            if(directory['directory'] != "eastereggs"){
+                for(let file of directory['files']){
+                    let fileObject = directory['directory'] == "utility" ? require(`./${file}`) : require(`../${directory['directory']}/${file}`);
+                    commandStrings.push(`                  ${fileObject.name}: ${fileObject.description}`);
+                }
             }
         }
         commandStrings.unshift('Here are the following commands:');

@@ -133,16 +133,28 @@ const characters = [
 const smite = {
     name: "smite",
     description: "Returns two random gods from Smite",
-    execute: (message) => {
-        let james = Math.floor(Math.random() * characters.length);
-        let rolando = Math.floor(Math.random() * characters.length);
-        while(james == rolando){
-            james = Math.floor(Math.random() * characters.length);
-            rolando = Math.floor(Math.random() * characters.length);
+    execute: (message, ...players) => {
+
+        if(players.length < 1) return message.channel.send("You must provide the names of each player that would like a random character selection.");
+
+        const stringArr = [];
+
+        const randomValuesSet = new Set();
+        while (randomValuesSet.size < players.length){
+            randomValuesSet.add(Math.floor(Math.random() * characters.length));
         }
-        james = characters[james];
-        rolando = characters[rolando];
-        return message.channel.send(`James plays: ${james}\n Rolando plays: ${rolando}`);
+
+        const randomValuesArray = Array.from(randomValuesSet);
+        
+        for (let i = 0; i < randomValuesArray.length; i++){
+            let heroVal = randomValuesArray[i];
+            stringArr.push(`           ${players[i]} plays: ${characters[heroVal]}`);
+        }
+
+        stringArr.unshift("The following have been selected:");
+        let finalString = stringArr.join("\n\n");
+
+        return message.channel.send(finalString);
     }
 }
 

@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('fs');
+const getFiles = require('../../getFiles.js');
 
 const help = {
     name: "help",
@@ -7,35 +8,9 @@ const help = {
     execute: async (message, command) => {
         if (!command) return message.channel.send("Error: Please provide a command to get further information.");
 
-        commandDirArr = await new Promise((resolve, reject) => {
+        const commandDirectory = path.join(__dirname, '/../../commands');
 
-            const commandDirectory = path.join(__dirname, '/../../commands');
-
-            fs.readdir(commandDirectory, async (err, directories) => {
-                if (err) {
-                    reject (new Error("Unable to access commands folder."));
-                }
-                const promiseArray = [];
-                directories.forEach(directory => {
-                    promiseArray.push(
-                        new Promise((resolve, reject) => {
-                            let subDirectoryPath = path.join(commandDirectory, directory);
-                            fs.readdir(subDirectoryPath, (err, files) => {
-                                if(err){
-                                    reject(err)
-                                }
-                                resolve({
-                                    directory: directory,
-                                    files: files
-                                });
-                            })
-                        })
-                    );
-                });
-                let results = await Promise.all(promiseArray);
-                resolve(results);
-            });
-        });
+        const commandDirArr = await getFiles(commandDirectory);
 
         let found = false;
         let dirName = null;

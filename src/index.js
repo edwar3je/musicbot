@@ -23,12 +23,16 @@ client.DisTube = new DisTube(client, {
   ]
 });
 
+if (client.DisTube){
+  console.log('DisTube is accessible from index.js');
+}
+
 client.on("ready", client => {
   console.log("KMart Bot is online");
 });
 
 client.on("messageCreate", async message => {
-  await commandHandler(message);
+  await commandHandler(message, client);
 });
 
 client.DisTube.on("playSong", (queue, song) => {
@@ -36,5 +40,3 @@ client.DisTube.on("playSong", (queue, song) => {
 });
 
 client.login(token);
-
-module.exports = client;

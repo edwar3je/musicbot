@@ -5,6 +5,7 @@ const getFiles = require('../../getFiles.js');
 const commands = {
     name: "listcommands",
     description: "Provides a list of commands.",
+    example: "!listcommands",
     execute: async (message) => {
 
         let commandStrings = [];

@@ -6,6 +6,7 @@ const characters = require('../../resources/smiteCharacters');
 const smitebuild = {
     name: "smitebuild",
     description: "Returns links to three of the most recent builds for a given character on SmiteFire",
+    example: "!smitebuild the-morrigan (must provide lowercase name of god with '-' to space out gaps if possible; see alias for god)",
     execute: async (message, character) => {
         if(!character) return message.channel.send("You must provide the name of a character from Smite (all lowercase, with '-' between each space).");
 

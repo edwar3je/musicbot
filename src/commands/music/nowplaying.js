@@ -1,6 +1,7 @@
 const nowplaying = {
     name: "nowplaying",
     description: "Lists the current song that is playing in the queue (if applicable).",
+    example: "!nowplaying",
     execute: (message, client) => {
         const queue = client.DisTube.getQueue(message.member.voice.channel);
         if (!queue) return message.channel.send("There are no songs currently playing");

@@ -3,6 +3,7 @@ const characters = require('../../resources/smiteCharacters');
 const smite = {
     name: "smite",
     description: "Returns two random gods from Smite",
+    example: "!smite Sam Jake (must provide at least one name)",
     execute: (message, ...players) => {
 
         if(players.length < 1) return message.channel.send("You must provide the names of each player that would like a random character selection.");
@@ -18,7 +19,7 @@ const smite = {
         
         for (let i = 0; i < randomValuesArray.length; i++){
             let heroVal = randomValuesArray[i];
-            stringArr.push(`           ${players[i]} plays: ${characters[heroVal].name}`);
+            stringArr.push(`           ${players[i]} plays: ${characters[heroVal].name} (${characters[heroVal].alias})`);
         }
 
         stringArr.unshift("The following have been selected:");

@@ -5,6 +5,7 @@ const getFiles = require('../../getFiles.js');
 const help = {
     name: "help",
     description: "Provides a description of a given function (requires a valid command).",
+    example: "!help test",
     execute: async (message, command) => {
         if (!command) return message.channel.send("Error: Please provide a command to get further information.");
 
@@ -30,7 +31,7 @@ const help = {
             return message.channel.send(`Command ${command} is not a valid command. Please provide a valid command or use '!commands' to obtain a list of available commands.`);
         } else {
             let commandFile = dirName == "utility" ? require(`./${command}.js`) : require(`../${dirName}/${command}.js`);
-            return message.channel.send(`${commandFile.name}: ${commandFile.description}`);
+            return message.channel.send(`${commandFile.name}: ${commandFile.description}\n Example: ${commandFile.example}`);
         }
     }
 }

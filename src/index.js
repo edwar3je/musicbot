@@ -23,10 +23,6 @@ client.DisTube = new DisTube(client, {
   ]
 });
 
-if (client.DisTube){
-  console.log('DisTube is accessible from index.js');
-}
-
 client.on("ready", client => {
   console.log("KMart Bot is online");
 });

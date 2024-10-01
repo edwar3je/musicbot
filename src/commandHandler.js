@@ -4,10 +4,6 @@ const getFiles = require('./getFiles');
 const commandHandler = async (message, client) => {
     if (message.author.bot || !message.guild) return;
 
-    if (client.DisTube){
-        console.log('DisTube is accessible from commandHandler.js');
-    }
-
     const prefix = "!";
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
 

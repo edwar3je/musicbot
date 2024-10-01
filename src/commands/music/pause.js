@@ -1,6 +1,7 @@
 const pause = {
     name: "pause",
     description: "Pauses the current song in queue (or resumes if a song is currently paused)",
+    example: "!pause",
     execute: async (message, client) => {
         const queue = client.DisTube.getQueue(message);
         if (!queue) return message.channel.send("There is nothing in the queue.");
